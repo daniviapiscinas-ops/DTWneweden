@@ -1,0 +1,33 @@
+name: Agenda Deportiva Diaria — Danivia TV
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  actualizar-agenda:
+    runs-on: ubuntu-latest
+    name: Actualizar agenda deportiva
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          pip install cryptography
+
+      - name: Ejecutar bot de agenda
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          python update_agenda.py
+
+      - name: Confirmar resultado
+        run: echo "✅ Agenda actualizada para $(date +'%d/%m/%Y')"
