@@ -2,7 +2,8 @@ name: Agenda Deportiva Diaria — Danivia TV
 
 on:
   schedule:
-    - cron: "0 5 * * *"
+    # Se ejecutará cada 6 horas (00, 06, 12, 18 UTC)
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
