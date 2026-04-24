@@ -2,7 +2,6 @@ name: Agenda Deportiva Diaria — Danivia TV
 
 on:
   schedule:
-    # Se ejecutará cada 6 horas (00, 06, 12, 18 UTC)
     - cron: "0 */6 * * *"
   workflow_dispatch:
 
@@ -30,5 +29,11 @@ jobs:
         run: |
           python update_agenda.py
 
-      - name: Confirmar resultado
-        run: echo "✅ Agenda actualizada para $(date +'%d/%m/%Y')"
+      # ESTO ES LO QUE FALTA: Crea un commit vacío para forzar a GitHub Pages a despertar
+      - name: Forzar despliegue de la web
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "Forzando actualización de la web tras actualizar Firebase"
+          git push
+
